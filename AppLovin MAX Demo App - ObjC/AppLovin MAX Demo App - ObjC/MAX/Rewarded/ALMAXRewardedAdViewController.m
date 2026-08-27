@@ -7,7 +7,7 @@
 //
 
 #import "ALMAXRewardedAdViewController.h"
-#import <AdjustSdk/AdjustSdk.h>
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXRewardedAdViewController()<MARewardedAdDelegate, MAAdRevenueDelegate>
@@ -23,13 +23,14 @@
 {
     [super viewDidLoad];
     
-    self.rewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.rewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @"d6f76c186e3fb450"];
     
     self.rewardedAd.delegate = self;
     self.rewardedAd.revenueDelegate = self;
     
     // Load the first ad
     [self.rewardedAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - IB Actions
@@ -47,7 +48,7 @@
 - (void)didLoadAd:(MAAd *)ad
 {
     // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Reset retry attempt
     self.retryAttempt = 0;
@@ -64,33 +65,36 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.rewardedAd loadAd];
+        [self logCallback: "start load Ad..."];
     });
 }
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Rewarded ad is hidden. Pre-load the next ad
     [self.rewardedAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Rewarded ad failed to display. We recommend loading the next ad
     [self.rewardedAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - MARewardedAdDelegate Protocol
@@ -98,14 +102,14 @@
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol
 
 - (void)didPayRevenueForAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];

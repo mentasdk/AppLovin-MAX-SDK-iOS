@@ -7,7 +7,7 @@
 //
 
 #import "ALMAXAutoLayoutBannerAdViewController.h"
-#import <AdjustSdk/AdjustSdk.h>
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXAutoLayoutBannerAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"5e47825a7c5b5a5e"];
     
     self.adView.delegate = self;
     self.adView.revenueDelegate = self;
@@ -44,13 +44,14 @@
     
     // Load the first ad
     [self.adView loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - MAAdDelegate Protocol
 
 - (void)didLoadAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
@@ -60,41 +61,41 @@
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 #pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didCollapseAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol
 
 - (void)didPayRevenueForAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];

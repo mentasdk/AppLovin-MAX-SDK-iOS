@@ -8,7 +8,7 @@
 
 #import "ALMAXInterstitialAdViewController.h"
 #import "ALBaseAdViewController.h"
-#import <AdjustSdk/AdjustSdk.h>
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXInterstitialAdViewController()<MAAdDelegate, MAAdRevenueDelegate>
@@ -24,13 +24,14 @@
 {
     [super viewDidLoad];
     
-    self.interstitialAd = [[MAInterstitialAd alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.interstitialAd = [[MAInterstitialAd alloc] initWithAdUnitIdentifier: @"0c5ff8456efbaf8e"];
     
     self.interstitialAd.delegate = self;
     self.interstitialAd.revenueDelegate = self;
     
     // Load the first ad
     [self.interstitialAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - IB Actions
@@ -39,6 +40,7 @@
 {
     if ( [self.interstitialAd isReady] )
     {
+        [self logCallback: "show Ad"];
         [self.interstitialAd showAd];
     }
 }
@@ -48,7 +50,7 @@
 - (void)didLoadAd:(MAAd *)ad
 {
     // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Reset retry attempt
     self.retryAttempt = 0;
@@ -65,40 +67,43 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.interstitialAd loadAd];
+        [self logCallback: "start load Ad..."];
     });
 }
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Interstitial ad is hidden. Pre-load the next ad
     [self.interstitialAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Interstitial ad failed to display. We recommend loading the next ad
     [self.interstitialAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol
 
 - (void)didPayRevenueForAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];

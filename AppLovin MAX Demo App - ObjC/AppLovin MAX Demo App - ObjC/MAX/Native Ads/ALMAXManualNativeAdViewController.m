@@ -7,7 +7,7 @@
 //
 
 #import "ALMAXManualNativeAdViewController.h"
-#import <AdjustSdk/AdjustSdk.h>
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
@@ -43,7 +43,7 @@
     }];
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
-    self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT"];
+    self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"b2274c61e3f172f1"];
     self.nativeAdLoader.nativeAdDelegate = self;
     self.nativeAdLoader.revenueDelegate = self;
 }
@@ -83,7 +83,7 @@
 
 - (void)didLoadNativeAd:(nullable MANativeAdView *)nativeAdView forAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // Save ad for cleanup
     self.nativeAd = ad;
@@ -109,19 +109,19 @@
 
 - (void)didClickNativeAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didExpireNativeAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol
 
 - (void)didPayRevenueForAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];

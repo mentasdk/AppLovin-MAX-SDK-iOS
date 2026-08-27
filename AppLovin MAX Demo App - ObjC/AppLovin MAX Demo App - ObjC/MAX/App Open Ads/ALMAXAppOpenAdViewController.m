@@ -8,7 +8,7 @@
 
 #import "ALMAXAppOpenAdViewController.h"
 #import "ALBaseAdViewController.h"
-#import <AdjustSdk/AdjustSdk.h>
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXAppOpenAdViewController ()<MAAdDelegate, MAAdRevenueDelegate>
@@ -30,6 +30,7 @@
     
     // Load the first ad
     [self.appOpenAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - IB Actions
@@ -47,7 +48,7 @@
 - (void)didLoadAd:(MAAd *)ad
 {
     // App Open ad is ready to be shown. '[self.appOpenAd isReady]' will now return 'YES'
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
@@ -57,35 +58,37 @@
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // App Open ad is hidden. Pre-load the next ad
     [self.appOpenAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     // App Open ad failed to display. We recommend loading the next ad
     [self.appOpenAd loadAd];
+    [self logCallback: "start load Ad..."];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol
 
 - (void)didPayRevenueForAd:(MAAd *)ad
 {
-    [self logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: [NSString stringWithFormat:@"%@: %s", ad.networkName, __PRETTY_FUNCTION__].UTF8String];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];

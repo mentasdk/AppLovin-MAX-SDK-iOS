@@ -7,4 +7,11 @@ platform :ios, '11.0'
 target 'AppLovin MAX Demo App - ObjC' do
   pod 'AppLovinSDK'
   pod 'Adjust'
+
+  # Menta Global SDK and the local MAX custom adapter.
+  pod 'MentaBaseGlobal', '1.0.33'
+  pod 'MentaMediationGlobal', '1.0.33'
+  pod 'MentaVlionGlobal', '1.0.33'
+  pod 'MentaVlionGlobalAdapter', '1.0.33'
+  pod 'MaxMentaAdapter', :path => '../Menta'
 end
