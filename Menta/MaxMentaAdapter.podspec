@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
   s.static_framework  = true
   
   s.source              = { :git => 'https://github.com/mentasdk/AppLovin-MAX-SDK-iOS.git', :tag => s.version.to_s }
-  s.source_files        = 'MaxMentaAdapter/**/*.{h,m}'
-  s.public_header_files = 'MaxMentaAdapter/*.h'
+  s.source_files        = '{MaxMentaAdapter,Menta/MaxMentaAdapter}/**/*.{h,m}'
+  s.public_header_files = '{MaxMentaAdapter,Menta/MaxMentaAdapter}/*.h'
   
   s.dependency 'AppLovinSDK',             '>= 13.0.0'
   s.dependency 'MentaBaseGlobal',         '1.0.34'
