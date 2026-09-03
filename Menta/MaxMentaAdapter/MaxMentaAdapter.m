@@ -7,7 +7,7 @@
 #import <MentaBaseGlobal/MentaBaseGlobal-umbrella.h>
 #import <MentaMediationGlobal/MentaMediationGlobal-umbrella.h>
 
-#define ADAPTER_VERSION @"1.0.33"
+#define ADAPTER_VERSION @"1.0.34"
 
 @class MaxMentaAdapter;
 
